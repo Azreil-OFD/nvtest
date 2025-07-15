@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voice Control</title>
+    <meta charset="utf-8" />
+    <script>
+    async function getStatus() {
+        const res = await fetch('/api/status');
+        const data = await res.json();
+        document.getElementById('status').innerText = data.running ? 'Running' : 'Stopped';
+    }
+    async function start() {
+        await fetch('/api/start', {method: 'POST'});
+        await getStatus();
+    }
+    async function stop() {
+        await fetch('/api/stop', {method: 'POST'});
+        await getStatus();
+    }
+    window.onload = getStatus;
+    </script>
+</head>
+<body>
+    <h1>Voice Program</h1>
+    Status: <span id="status">Unknown</span><br>
+    <button onclick="start()">Start</button>
+    <button onclick="stop()">Stop</button>
+</body>
+</html>
