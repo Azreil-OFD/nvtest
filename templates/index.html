@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Audio Controller</title>
+</head>
+<body>
+<h1>Program status: {{ 'running' if status else 'stopped' }}</h1>
+<button onclick="start()">Start</button>
+<button onclick="stop()">Stop</button>
+<h2>Config</h2>
+<pre id="config"></pre>
+<script>
+async function fetchConfig() {
+    const res = await fetch('/api/get_config');
+    const data = await res.json();
+    document.getElementById('config').textContent = JSON.stringify(data, null, 2);
+}
+async function start() {
+    await fetch('/api/start', {method: 'POST'});
+    location.reload();
+}
+async function stop() {
+    await fetch('/api/stop', {method: 'POST'});
+    location.reload();
+}
+document.addEventListener('DOMContentLoaded', fetchConfig);
+</script>
+</body>
+</html>
